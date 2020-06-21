@@ -5,16 +5,21 @@
             <p class="ChatDescript">{{ userInfo.status }}</p>
         </header>
         <div class="boardChat">
-          <p 
+          <div 
             :key='key' 
             v-for="(item, key) in userInfo.messages"
-            :class="{ meMess : item.user == 'me' }"
+            :class="[{ meMessContainer : item.user == 'me' }, { otherMessContainer : item.user == 'other' }]"
+          >
+            <p 
+            class="mess"
+            
             >
               {{ item.text }}
-              asd
             </p>
+          </div>
+          
         </div>
-        <div class="BottomMenuChat" v-if="isSelectChat">
+        <div class="BottomMenuChat" v-if="isSelectChat && isChatId >= 0">
           <input 
             type="text" 
             v-model="message" 
@@ -39,11 +44,15 @@ export default {
   methods: {
     sendMessage(){
       store.commit( 'addMessageChat', this.message );
+      this.message = "";
     },
   },
   computed: {
     isSelectChat(){
       return store.state.isSelectChat
+    },
+    isChatId(){
+      return store.state.SelectChatId
     },
     
     userInfo(){
@@ -113,10 +122,17 @@ export default {
   left: 0px;
   width: 100%;
 }
-.meMess{
-  position: absolute;
-  right: 15px;
-  bottom: 0;
+.meMessContainer{
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 45px;
+}
+.otherMessContainer{
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 45px;
+}
+.mess{
   background: #fff;
   padding: 15px 25px;
   border-radius: 5px;

@@ -2,7 +2,7 @@
     <div class="MenuBlock">
       <input placeholder="Поиск" class="SearchBlock"/>
       <div class="ButtonsBlock">
-          <button :class="{activate : type == 'chat'}" @click="type = 'chat'">Чаты</button>
+          <button :class="{activate : type == 'chat'}" @click="clickChat">Чаты</button>
           <button :class="{activate : type == 'project'}" @click="type = 'project'">Проекты</button>
       </div>
       <ListChat v-if="type == 'chat' "/>
@@ -30,6 +30,9 @@ export default {
   methods: {
     viewCreateProject(){
       store.commit('showIsCreateProject');
+    },
+    clickChat(){
+      this.type = 'chat';
     }
     
   }

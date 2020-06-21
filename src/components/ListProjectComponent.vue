@@ -1,10 +1,14 @@
 <template>
     <div>
-      <div :key="key" v-for="(item, key) in projectlist" class="UserBlock">
+      <div 
+      :key="key" 
+      v-for="(item, key) in projectlist" 
+      class="UserBlock" 
+      :class="{activity : (isProjectId == key) && isSelectProject}"
+      @click="selectProject(key)">
           <img :src="item.img" :alt="item.name" class="img"/>
           <div class="ContantBlock">
             <h2 class="title">{{ item.name }}</h2>
-            <p class="lastMessage">{{ item.lastMessage }}</p>
           </div>
       </div>
     </div>
@@ -22,16 +26,30 @@ export default {
     computed: {
         projectlist(){
             return store.state.projectList
+        },
+        isSelectProject(){
+            return store.state.isSelectProject;
+        },
+        isProjectId(){
+            return store.state.SelectProjectId;
         }
-    }
+    },
+    methods : {
+        selectProject(key){
+            store.commit('selectProject', true);
+            store.commit('SelectProjectId', key);
+
+        }
+  }
 }
 </script>
 
 <style scoped>
 .UserBlock{
     display: flex;
-    margin: 15px 5px;
+    margin: 5px 0px;
     cursor: pointer;
+    padding: 8px 10px;
 }
 .UserBlock:hover{
     background: #00000012;
@@ -53,5 +71,12 @@ export default {
 }
 .lastMessage{
     margin: 0;
+}
+.activity{
+  background: #0424a2cf  !important; 
+  color: #fff;
+}
+.activity:hover{
+  background: #0424a29c !important;
 }
 </style>

@@ -1,29 +1,20 @@
 <template>
-  <div class="CreateProjectBlock">
+  <div class="CreateTaskBlock">
       <div>
-          <label>Название проекта</label>
-          <input v-model="data.name" placeholder="Название проекта"/>
+        <label>Название задачи</label>
+        <input v-model="data.name" placeholder="Название проекта"/>
       </div>
       <div>
-          <label>Описание проекта</label>
-          <textarea v-model="data.description" placeholder="Описание проекта"/>
-      </div>
-      <div>
-          <label>Тематика проекта</label>
-          <select v-model="data.theme"> 
-              <option>IT</option>
-              <option>Менеджмент</option>
-              <option>Дизайн</option>
-          </select>
+        <label>Описание задачи</label>
+        <textarea v-model="data.description" placeholder="Описание проекта"/>
       </div>
       <div>
           <label>Дедлайн проекта</label>
           <input v-model="data.date" type="date"/>
       </div>
-
       <div class="createProjectBottomMenu">
-          <button class="btnClose" @click="hiddenCreateProject()">Отмета</button>
-          <button class="btnNext" @click="createProject()">Создать</button>
+          <button class="btnClose" @click="hiddenCreateTask()">Отмета</button>
+          <button class="btnNext" @click="createTask()">Создать</button>
       </div>
   </div>
 </template>
@@ -36,35 +27,37 @@ export default {
     return {
       data: {
         name: "",
-        description: "",
-        theme: "IT",
-        date: ""
+        description: ""
       }
     }
   },
+  components: {
+  },
+  computed: {
+  },
   methods: {
-    hiddenCreateProject(){
-      store.commit('hiddenIsCreateProject');
+    hiddenCreateTask(){
+      store.commit('hiddenIsCreateTask');
     },
-    createProject(){
-      store.commit('createProject', {
+    createTask(){
+      store.commit('createTask', {
         name: this.data.name,
         description: this.data.description,
-        theme: this.data.theme,
-        date: this.data.date,
-        img: "https://image.freepik.com/free-vector/_20187-292.jpg"
+        date: this.data.date
       });
-      store.commit('hiddenIsCreateProject');
+      store.commit('hiddenIsCreateTask');
     }
   }
+
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.CreateProjectBlock{
+
+.CreateTaskBlock{
     width: 500px;
-    min-height: 500px;
+    min-height: 200px;
     background: #fff;
     position: absolute;
     left: 50%;
@@ -72,30 +65,24 @@ export default {
     transform: translate(-50%, -50%);
     border-radius: 10px;
     padding: 15px 25px;
-    
 }
-.CreateProjectBlock > div{
+.CreateTaskBlock > div{
     margin-bottom: 20px;
 }
-.CreateProjectBlock > div > label{
+.CreateTaskBlock > div > label{
     display: block;
     margin-bottom: 10px;
 }
-.CreateProjectBlock > div > input{
+.CreateTaskBlock > div > input{
     width: 100%;
     padding: 10px 15px;
     box-sizing: border-box;
 }
-.CreateProjectBlock > div > textarea{
+.CreateTaskBlock > div > textarea{
     width: 100%;
     padding: 10px 15px;
     box-sizing: border-box;
     resize: none;
-}
-.CreateProjectBlock > div > select{
-    width: 100%;
-    padding: 10px 15px;
-    box-sizing: border-box;
 }
 .btnClose{
     background: #ddd;

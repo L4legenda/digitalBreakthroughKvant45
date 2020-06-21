@@ -1,15 +1,21 @@
 <template>
   <div class="ChatBlock">
-        <header class="ChatHeader" v-if="isSelectChat">
-            <h1 class="ChatTitle">{{  }}</h1>
-            <p class="ChatDescript">Описание проекта...</p>
+        <header class="ChatHeader">
+            <h1 class="ChatTitle">{{ projectInfo.name }}</h1>
+            <p class="ChatDescript">{{ projectInfo.description }}</p>
         </header>
-          <div v-for="(item, key) in TaskTest" :key="key">
+          <div 
+          v-for="(item, key) in projectInfo.tasklist" 
+          :key="key" 
+          @click="createTaskBoard(item)">
             <Task :data="item" />
           </div>
-        <div class="BottomMenuChat" v-if="isSelectChat">
-          <input type="text" placeholder="Сообщение" class="ButtonTextChat">
-          
+        <div class="BottomMenuChat">
+          <button 
+            class="ButtonBottomChat" 
+            @click="showCreateTask">
+           Добавить задачу 
+          </button>
         </div>
     </div>
 </template>
@@ -20,22 +26,44 @@ import store from '../vuex/store.js'
 export default {
   data(){
     return {
-      TaskTest : [
-      // {
-      //   title: "Задача 1: Парам парам",
-      //   descript: "Описание",
-      //   time: "23:00",
-      //   date: "21.06.2020"
-      // }
-      ]
+    }
+  },
+  methods: {
+    showCreateTask(){
+      store.commit('showIsCreateTask');
+    },
+    createTaskBoard(data){
+      store.commit('createTaskBoard', {
+        vision: true,
+        title: data.name,
+        date: data.date,
+        description: data.description
+      });
     }
   },
   components: {
     Task
   },
   computed: {
-    isSelectChat(){
-      return store.state.isSelectChat
+    isSelectProject(){
+      return store.state.isSelectProject
+    },
+    projectInfo(){
+      const project = store.state.projectList[store.state.SelectProjectId];
+      if(store.state.SelectProjectId >= 0){
+        return {
+          name : project.name,
+          description: project.description,
+          theme: project.theme,
+          date: project.date,
+          tasklist : project.taskList
+        }
+      }else{
+        return {
+          name: "Проекты",
+
+        }
+      }   
     }
   }
 
@@ -85,4 +113,5 @@ export default {
   height: 100%;
   padding: 10px 25px;
 }
+
 </style>

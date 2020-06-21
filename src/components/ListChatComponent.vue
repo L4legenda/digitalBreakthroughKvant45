@@ -1,10 +1,14 @@
 <template>
   <div>
-    <div :key="key" v-for="(item, key) in chatlist" :class="{activity : (isChatId == key) && isSelectChat}" class="UserBlock" @click="selectChat(key)">
+    <div 
+    :key="key" v-for="(item, key) in chatlist" 
+    :class="{activity : (isChatId == key) && isSelectChat}" 
+    class="UserBlock" @click="selectChat(key)">
+    
       <img :src="item.img" :alt="item.name" class="img"/>
       <div class="ContantBlock">
         <h2 class="title">{{ item.name }}</h2>
-        <p class="lastMessage">{{ item.lastMessage }}</p>
+        <p class="lastMessage">{{ lastMessage(key).text }}</p>
       </div>
     </div>
   </div>
@@ -28,13 +32,23 @@ export default {
       isChatId(){
         return store.state.SelectChatId;
       }
+      
   },
   methods : {
     selectChat(key){
-      store.commit('selectChat');
+      store.commit('selectChat', true);
       store.commit('SelectChatId', key);
 
-    }
+    },
+    lastMessage(key){
+        const l = store.state.chatList[key].message.length - 1;
+        if(l >= 0){
+          return store.state.chatList[key].message[l];
+        }else{
+          return []
+        }
+        
+      }
   }
 }
 </script>
@@ -67,6 +81,10 @@ export default {
 }
 .lastMessage{
     margin: 0;
+    white-space: nowrap; /* Запрещаем перенос строк */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 50%;
 }
 .activity{
   background: #0424a2cf  !important; 

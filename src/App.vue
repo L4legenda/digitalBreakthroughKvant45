@@ -4,6 +4,8 @@
     <Chat v-if="isChat" />
     <Project v-if="isProject"/>
     <CreateProject v-if="isCreateProject"/>
+    <CreateTask v-if="isCreateTask"/>
+    <TaskBoard v-if="isTaskBoard"/>
   </div>
 </template>
 
@@ -12,6 +14,8 @@ import MenuLeft from './components/MenuLeftComponent.vue'
 import Chat from './components/ChatComponent.vue'
 import Project from './components/ProjectComponent.vue'
 import CreateProject from './components/CreateProjectComponent.vue'
+import CreateTask from './components/CreateTaskComponent.vue'
+import TaskBoard from './components/TaskBoardComponent.vue'
 import store from './vuex/store.js'
 
 export default {
@@ -20,7 +24,9 @@ export default {
     MenuLeft,
     Chat,
     Project,
-    CreateProject
+    CreateProject,
+    CreateTask,
+    TaskBoard
   },
   data(){
     return {
@@ -35,7 +41,13 @@ export default {
       return store.state.isSelectChat
     },
     isProject(){
-      return store.state.isCreateProject
+      return store.state.isSelectProject
+    },
+    isCreateTask(){
+      return store.state.isCreateTask
+    },
+    isTaskBoard(){
+      return store.state.taskBoard.vision
     }
   }
 }
